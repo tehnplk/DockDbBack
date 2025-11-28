@@ -419,6 +419,7 @@ class MainWindow(QtWidgets.QWidget, Ui_MainWindow):
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
+    app.setStyle("Fusion")
     window = MainWindow()
     window.show()
     sys.exit(app.exec())

@@ -4,10 +4,13 @@ from PyQt6 import QtCore, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 500)
+        MainWindow.resize(860, 540)
+        MainWindow.setMinimumSize(QtCore.QSize(720, 480))
 
         self.verticalLayout = QtWidgets.QVBoxLayout(MainWindow)
         self.verticalLayout.setObjectName("verticalLayout")
+        self.verticalLayout.setContentsMargins(16, 16, 16, 16)
+        self.verticalLayout.setSpacing(12)
 
         # DB type selector
         self.layoutDbType = QtWidgets.QHBoxLayout()
@@ -91,6 +94,70 @@ class Ui_MainWindow(object):
         self.plainTextEditLog.setReadOnly(True)
         self.plainTextEditLog.setObjectName("plainTextEditLog")
         self.verticalLayout.addWidget(self.plainTextEditLog)
+
+        # modern-ish tweaks
+        for btn in (self.btnBackupBrowse, self.btnBackupRun, self.btnRestoreBrowse, self.btnRestoreRun, self.btnConfig):
+            btn.setMinimumHeight(28)
+
+        MainWindow.setStyleSheet(
+            """
+            QWidget {
+                background-color: #121212;
+                color: #f5f5f5;
+                font-family: "Segoe UI", sans-serif;
+                font-size: 10pt;
+            }
+            QGroupBox {
+                border: 1px solid #333;
+                border-radius: 6px;
+                margin-top: 1ex;
+                padding: 8px;
+                font-weight: bold;
+            }
+            QGroupBox::title {
+                subcontrol-origin: margin;
+                subcontrol-position: top left;
+                padding: 0 6px;
+            }
+            QLabel {
+                font-size: 9pt;
+            }
+            QLineEdit, QPlainTextEdit {
+                background-color: #1e1e1e;
+                border: 1px solid #333;
+                border-radius: 4px;
+                padding: 4px 6px;
+                selection-background-color: #2563eb;
+            }
+            QComboBox {
+                background-color: #1e1e1e;
+                border: 1px solid #333;
+                border-radius: 4px;
+                padding: 2px 6px;
+            }
+            QPushButton {
+                background-color: #2563eb;
+                color: #ffffff;
+                border: none;
+                border-radius: 4px;
+                padding: 6px 12px;
+            }
+            QPushButton:hover {
+                background-color: #1d4ed8;
+            }
+            QPushButton:pressed {
+                background-color: #1e40af;
+            }
+            QPushButton:disabled {
+                background-color: #444;
+                color: #999;
+            }
+            QPlainTextEdit {
+                font-family: "Cascadia Code", "Consolas", monospace;
+                font-size: 9pt;
+            }
+            """
+        )
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
