@@ -1,0 +1,30 @@
+{
+  "postgres": {
+    "source": {
+      "container": "postgres",
+      "db_name": "erp2",
+      "db_user": "admin",
+      "db_password": "112233"
+    },
+    "target": {
+      "container": "erp_postgres",
+      "db_name": "erp",
+      "db_user": "root",
+      "db_password": "112233"
+    }
+  },
+  "mysql": {
+    "source": {
+      "container": "",
+      "db_name": "",
+      "db_user": "",
+      "db_password": ""
+    },
+    "target": {
+      "container": "",
+      "db_name": "",
+      "db_user": "",
+      "db_password": ""
+    }
+  }
+}
