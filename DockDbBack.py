@@ -81,12 +81,12 @@ def do_backup(db_type: str, config: dict, dump_path: str, log_callback=None):
     container_dump_path = "/backup/" + os.path.basename(dump_path)
 
     # สร้างโฟลเดอร์ /backup ใน container (ถ้ายังไม่มี)
-    run_cmd(["docker", "exec", "-it", container, "mkdir", "-p", "/backup"], log_callback)
+    run_cmd(["docker", "exec", container, "mkdir", "-p", "/backup"], log_callback)
 
     if db_type.lower() == "postgres":
         # pg_dump ใน container
         run_cmd([
-            "docker", "exec", "-e", f"PGPASSWORD={db_password}", "-it", container,
+            "docker", "exec", "-e", f"PGPASSWORD={db_password}", container,
             "pg_dump", "-U", db_user, "-d", db_name, "-Fc", "-C", "-f", container_dump_path,
         ], log_callback)
 
@@ -99,7 +99,7 @@ def do_backup(db_type: str, config: dict, dump_path: str, log_callback=None):
         # mysqldump ใน container (ใช้ sh -c เพื่อ redirect ออกไฟล์)
         dump_cmd = f"mysqldump -u {db_user} {db_name} > {container_dump_path}"
         run_cmd([
-            "docker", "exec", "-e", f"MYSQL_PWD={db_password}", "-it", container,
+            "docker", "exec", "-e", f"MYSQL_PWD={db_password}", container,
             "sh", "-c", dump_cmd,
         ], log_callback)
 
@@ -130,7 +130,7 @@ def do_restore(db_type: str, config: dict, dump_path: str, log_callback=None):
     container_dump_path = f"/backup/{file_name}"
 
     # สร้างโฟลเดอร์ /backup ใน container ปลายทาง (ถ้ายังไม่มี)
-    run_cmd(["docker", "exec", "-it", container, "mkdir", "-p", "/backup"], log_callback)
+    run_cmd(["docker", "exec", container, "mkdir", "-p", "/backup"], log_callback)
 
     # copy ไฟล์จาก Windows host เข้า container
     run_cmd(["docker", "cp", dump_path, f"{container}:{container_dump_path}"], log_callback)
@@ -138,7 +138,7 @@ def do_restore(db_type: str, config: dict, dump_path: str, log_callback=None):
     if db_type.lower() == "postgres":
         # pg_restore ทับฐาน db_name โดยไม่ตั้ง owner จาก dump
         run_cmd([
-            "docker", "exec", "-e", f"PGPASSWORD={db_password}", "-it", container,
+            "docker", "exec", "-e", f"PGPASSWORD={db_password}", container,
             "pg_restore", "-U", db_user,
             "-d", db_name,
             "--clean", "--if-exists", "--no-owner",
@@ -149,7 +149,7 @@ def do_restore(db_type: str, config: dict, dump_path: str, log_callback=None):
         # mysql restore ภายใน container ด้วย sh -c และ redirect
         restore_cmd = f"mysql -u {db_user} {db_name} < {container_dump_path}"
         run_cmd([
-            "docker", "exec", "-e", f"MYSQL_PWD={db_password}", "-it", container,
+            "docker", "exec", "-e", f"MYSQL_PWD={db_password}", container,
             "sh", "-c", restore_cmd,
         ], log_callback)
     else:
@@ -418,12 +418,20 @@ class MainWindow(QtWidgets.QWidget, Ui_MainWindow):
 
 
 def main():
-    app = QtWidgets.QApplication(sys.argv)
-    app.setStyle("Fusion")
-    window = MainWindow()
-    window.show()
-    sys.exit(app.exec())
-
+    print("Starting main...")
+    try:
+        app = QtWidgets.QApplication(sys.argv)
+        app.setStyle("Fusion")
+        print("App created")
+        window = MainWindow()
+        print("Window created")
+        window.show()
+        print("Window shown, entering exec loop")
+        sys.exit(app.exec())
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        import traceback
+        traceback.print_exc()
 
 if __name__ == "__main__":
     main()

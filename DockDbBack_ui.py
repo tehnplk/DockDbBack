@@ -102,59 +102,77 @@ class Ui_MainWindow(object):
         MainWindow.setStyleSheet(
             """
             QWidget {
-                background-color: #121212;
-                color: #f5f5f5;
+                background-color: #f9fafb;
+                color: #111827;
                 font-family: "Segoe UI", sans-serif;
                 font-size: 10pt;
             }
             QGroupBox {
-                border: 1px solid #333;
-                border-radius: 6px;
-                margin-top: 1ex;
-                padding: 8px;
-                font-weight: bold;
+                border: 1px solid #e5e7eb;
+                border-radius: 8px;
+                margin-top: 1.2ex;
+                padding: 12px;
+                font-weight: 600;
+                color: #374151;
+                background-color: #ffffff;
             }
             QGroupBox::title {
                 subcontrol-origin: margin;
                 subcontrol-position: top left;
                 padding: 0 6px;
+                background-color: #ffffff;
             }
             QLabel {
-                font-size: 9pt;
+                color: #374151;
+                font-size: 9.5pt;
             }
             QLineEdit, QPlainTextEdit {
-                background-color: #1e1e1e;
-                border: 1px solid #333;
-                border-radius: 4px;
-                padding: 4px 6px;
-                selection-background-color: #2563eb;
+                background-color: #ffffff;
+                border: 1px solid #d1d5db;
+                border-radius: 6px;
+                padding: 6px 8px;
+                color: #111827;
+                selection-background-color: #3b82f6;
+                selection-color: #ffffff;
+            }
+            QLineEdit:focus, QPlainTextEdit:focus {
+                border: 1px solid #3b82f6;
             }
             QComboBox {
-                background-color: #1e1e1e;
-                border: 1px solid #333;
-                border-radius: 4px;
-                padding: 2px 6px;
+                background-color: #ffffff;
+                border: 1px solid #d1d5db;
+                border-radius: 6px;
+                padding: 4px 8px;
+                color: #111827;
+            }
+            QComboBox::drop-down {
+                border: none;
+                width: 20px;
             }
             QPushButton {
-                background-color: #2563eb;
+                background-color: #3b82f6;
                 color: #ffffff;
                 border: none;
-                border-radius: 4px;
-                padding: 6px 12px;
+                border-radius: 6px;
+                padding: 8px 16px;
+                font-weight: 600;
             }
             QPushButton:hover {
-                background-color: #1d4ed8;
+                background-color: #2563eb;
             }
             QPushButton:pressed {
-                background-color: #1e40af;
+                background-color: #1d4ed8;
             }
             QPushButton:disabled {
-                background-color: #444;
-                color: #999;
+                background-color: #e5e7eb;
+                color: #9ca3af;
             }
             QPlainTextEdit {
                 font-family: "Cascadia Code", "Consolas", monospace;
                 font-size: 9pt;
+                background-color: #f3f4f6;
+                color: #1f2937;
+                border: 1px solid #e5e7eb;
             }
             """
         )
